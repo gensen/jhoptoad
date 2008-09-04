@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<project name="HopToadClient" default="compile">
+	<property name="src" location="src/main/java/" />
+	<property name="docs" location="doc" />
+	<property name="build" location="build" />
+	<property name="compile.debug" value="true" />
+
+	<path id="mainpath">
+		<pathelement location="${build}" />
+		<fileset dir="lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!--                                                              -->
+	<!--                                                              -->
+	<!--                                                              -->
+	<target name="compile" description="Compiles java sources" depends="init">
+		<javac srcdir="${src}" 
+			destdir="${build}" 
+			debug="${compile.debug}" 
+			debuglevel="lines,vars,source" source="1.5">
+			<classpath refid="mainpath" />
+		</javac>
+	</target>
+
+	<!--                                                              -->
+	<!--                                                              -->
+	<!--                                                              -->
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}" />
+		<mkdir dir="${docs}" />
+	</target>
+
+	
+	<!--                                                              -->
+	<!--                                                              -->
+	<!--                                                              -->
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+		<delete dir="${docs}" />
+	</target>
+
+	
+    <!--                                                              -->
+    <!--                                                              -->
+    <!--                                                              -->	
+	<target name="docs" description="generate javadocs">
+		   <javadoc 
+		    stylesheetfile="src/main/screen.css" 
+		   	overview="src/main/overview.html"
+		   	access="private"
+		   	sourcepath="src/main/java" 
+		    destdir="${docs}"/>
+		   
+	
+	</target>
+</project>
