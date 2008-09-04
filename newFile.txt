@@ -1,0 +1,19 @@
+total 96
+drwxr-xr-x   18 npaessel  npaessel    612 Sep  4 18:28 .
+drwxr-xr-x    8 npaessel  npaessel    272 Aug 21 23:49 ..
+-rw-r--r--    1 npaessel  npaessel    367 Sep  4 12:40 .classpath
+drwxr-xr-x   14 npaessel  npaessel    476 Sep  4 18:28 .git
+-rw-r--r--    1 npaessel  npaessel      3 Sep  4 12:30 .gitignore
+-rw-r--r--    1 npaessel  npaessel    372 Sep  4 12:43 .project
+drwxr-xr-x    4 npaessel  npaessel    136 Aug 20 12:19 .settings
+-rw-------    1 npaessel  npaessel  20480 Sep  4 18:01 .swp
+drwxr-xr-x    3 npaessel  npaessel    102 Sep  4 12:43 bin
+-rw-r--r--    1 npaessel  npaessel   2152 Sep  4 11:48 build.xml
+-rw-r--r--    1 npaessel  npaessel   1009 Sep  4 12:45 client-lib-src.jardesc
+-rw-r--r--    1 npaessel  npaessel    910 Sep  4 12:47 client-lib.jardesc
+drwxr-xr-x   17 npaessel  npaessel    578 Sep  4 11:48 doc
+-rw-r--r--    1 npaessel  npaessel     38 Sep  4 18:28 ignoreme.txt
+drwxr-xr-x    4 npaessel  npaessel    136 Sep  4 12:45 lib
+-rw-r--r--    1 npaessel  npaessel      0 Sep  4 18:28 newFile.txt
+drwxr-xr-x    5 npaessel  npaessel    170 Sep  4 12:43 src
+drwxr-xr-x    4 npaessel  npaessel    136 Aug 20 12:19 target
