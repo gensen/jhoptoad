@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="MacRoman"?>
 <jardesc>
-<jar path="/Users/npaessel/lab/java/lib/hoptoadclient-0.1.jar"/>
+<jar path="/Users/npaessel/lab/workspace/HopToadClient/lib/hoptoadclient-0.2.jar"/>
 <options buildIfNeeded="true" compress="true" descriptionLocation="/HopToadClient/client-lib.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
 <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
 <selectedProjects/>
@@ -10,7 +10,7 @@
 <packagesToUnSeal/>
 </sealing>
 </manifest>
-<selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+<selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
 <javaElement handleIdentifier="=HopToadClient/src\/main\/java"/>
 </selectedElements>
 </jardesc>
