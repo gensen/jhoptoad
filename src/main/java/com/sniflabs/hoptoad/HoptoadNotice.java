@@ -1,3 +1,23 @@
+/**********************************************************************
+ *                                                                     *
+ *        ***    ***       ***************       ***    ***            *
+ *       ***    ***    ***********************    ***    ***           *
+ *      ***    ***   ***************************   ***    ***          *
+ *     ****   ****  ****     ***********     ****  ****   ****         *
+ *     ****   ****   **      ***********      **   ****   ****         *
+ *      ***    ***          *************          ***    ***          *
+ *       ***    ***       *****************       ***    ***           *
+ *        ***    ***       ***************       ***    ***            *
+ *                                                                     *
+ ***********************************************************************
+ 
+(c) 2008 SNIF Labs Inc. MIT Licenses (see readme)                                                                
+project: HopToadProxy
+File: HoptoadErrorTest.java
+Package: com.sniflabs.HopToadProxy
+Version: @version @rev.maj@.@rev.min@  (Build No. @build.number@ on @build.date@)
+Authors: Noah Paessel (noah AT sniflabs.com)
+ ***********************************************************************/
 
 package com.sniflabs.hoptoad;
 
@@ -37,152 +57,153 @@ import net.sourceforge.yamlbeans.YamlWriter;
  * 
  * 
  * @see <a href="http://sourceforge.net/projects/yamlbeans/">yamlbeans</a> 
- * @author Noah Paessel (noah@sniflabs.com)
- * @version 0.1 (may be quite flakey!)
+ * @author Noah Paessel (noah AT sniflabs.com)
+ * @version @version @rev.maj@.@rev.min@  (Build No. @build.number@ built on @build.date@)
  */
 public class HoptoadNotice {
-	
-	public static final String	HOPTOAD_URL="http://hoptoadapp.com/notices/";
 
-	public String 				api_key;
-	public String 				error_message;
-	public String				error_class;
-	
-	public ArrayList<String>		backtrace;
-	public HashMap<String, String>	session;
-	public HashMap<String, String>	request;
-	public Map<String, String>		environment;	
-	
-	
-	/**
-	 * default constructor. Doesn't help anyone, but is required for bean-ness.
-	 * initializes data structures.
-	 */
-	public HoptoadNotice() {
-		super();
-		this.api_key = "invalid key";
-		backtrace = new ArrayList<String>();
-		
-		session = new HashMap<String, String>();
-		request = new HashMap<String, String>();
-		environment = new HashMap<String, String>();
-	}
-	
+    public static final String HOPTOAD_URL = "http://hoptoadapp.com/notices/";
+    public String api_key;
+    public String error_message;
+    public String error_class;
+    public ArrayList<String> backtrace;
+    public HashMap<String, String> session;
+    public HashMap<String, String> request;
+    public Map<String, String> environment;
 
-	/**
-	 * Create a new HoptoadNotice notice for sending to hoptoadapp.com <br>
-	 * <strong>NOTE:</strong> this does not send actually send the notice
-	 * @param key Your HoapToadApp API key.
-	 * @param exception the exception you want to log
-	 * 
-	 */
-	public HoptoadNotice(String key, Throwable exception) {
-		this();
-		api_key = key;
-		error_message = exception.getMessage();
-		if (null == error_message || error_message.equals("")) {
-			error_message = exception.toString();
-		}
-		error_class   = exception.getClass().getSimpleName();
-		environment   = System.getenv();
-		
-		for(StackTraceElement element : exception.getStackTrace()) {
-			backtrace.add(String.format("%s:%d  %s %s", 
-					element.getFileName(), 
-					element.getLineNumber(), 
-					element.getClassName(), 
-					element.getMethodName()));
-		}
-	}
-	
+    /**
+     * default constructor. Doesn't help anyone, but is required for bean-ness.
+     * initializes data structures.
+     */
+    public HoptoadNotice() {
+        super();
+        this.api_key = "invalid key";
+        backtrace = new ArrayList<String>();
 
-	/**
-	 * return the YAML string for this notice.<br/>
-	 * <strong>NOTE:</strong> HoptoadNotice reuqires a java YAML library called
-	 * yamlbeans.  you can get it http://sourceforge.net/projects/yamlbeans/
-	 * <strong>NOTE:</strong> It seems like hoptoad hates the "!" thingies that
-	 * this library creates. 
-	 * 
-	 * I don't feel like understanding what this is all about,
-	 * so I replaced the "!" thingies and class names with NOTHING. Huh.
-	 * @see https://sourceforge.net/projects/yamlbeans/
-	 * @return the YAML for the HopToadNotice datastructure
-	 */
-	public String toYaml() {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		HashMap<String,Object> values = new HashMap<String, Object>();
+        session = new HashMap<String, String>();
+        request = new HashMap<String, String>();
+        environment = new HashMap<String, String>();
+    }
 
-		YamlConfig config = new YamlConfig();
-		config.writeConfig.setUseVerbatimTags(false);
-		config.writeConfig.setExplicitFirstDocument(true);
-		config.writeConfig.setWriteDefaultValues(true);
-		config.writeConfig.setWrapColumn(2000);
-		config.writeConfig.setIndentSize(2);
-		YamlWriter writer = new YamlWriter(new OutputStreamWriter(out),config);
-		
-		values.put("notice",this);
-		try {
-			writer.write(values);
-			writer.close();
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		String returnString=out.toString();
-		returnString = returnString.replaceAll("!\\S+", "");
-		return returnString;
-	}
-	
-	/**
-	 * Send the data to the HopToadApp.
-	 * Sets HTTP headers, and then sends the YAML file.
-	 * Optionally prints out the YAML text if you pass in true for debug.
-	 * @param debug set to true to see the YAML sent, and the XML server results
-	 */
-	public void postData(final boolean debug) {
-		try {
-			// establish connection to hoptoad
-			URLConnection conn = new URL(HOPTOAD_URL).openConnection();
+    /**
+     * Create a new HoptoadNotice notice for sending to hoptoadapp.com <br>
+     * <strong>NOTE:</strong> this does not send actually send the notice
+     * @param key Your HoapToadApp API key.
+     * @param exception the exception you want to log
+     * 
+     */
+    public HoptoadNotice(String key, Throwable exception) {
+        this();
+        api_key = key;
+        error_message = exception.getMessage();
+        if (null == error_message || error_message.equals("")) {
+            error_message = exception.toString();
+        }
+        error_class = exception.getClass().getSimpleName();
+        environment = System.getenv();
 
-			// set up the connection to handle posting x-yaml document.
-			// and for receiving XML formatted response..
-			// HEY HOPTOAD KIDS: Can I send XML instead of YAML?
-			// us java guys are just broken that way!
-			conn.setRequestProperty(
-					"Content-type",
-					"application/x-yaml");
-			conn.setRequestProperty(
-					"Accept",
-					"text/xml, application/xml");
-			conn.setDoOutput(true);
+        for (StackTraceElement element : exception.getStackTrace()) {
+            backtrace.add(String.format(
+                "%s:%d  %s %s",
+                element.getFileName(),
+                element.getLineNumber(),
+                element.getClassName(),
+                element.getMethodName()));
+        }
+    }
 
-			OutputStreamWriter wr = new OutputStreamWriter(conn
-					.getOutputStream());
-			if (debug) {
-				System.out.println(toYaml());
-			}
-			wr.write(toYaml());
-			wr.flush();
-			wr.close();
+    /**
+     * return the YAML string for this notice.<br/>
+     * <strong>NOTE:</strong> HoptoadNotice reuqires a java YAML library called
+     * yamlbeans.  you can get it http://sourceforge.net/projects/yamlbeans/
+     * <strong>NOTE:</strong> It seems like hoptoad hates the "!" thingies that
+     * this library creates. 
+     * 
+     * I don't feel like understanding what this is all about,
+     * so I replaced the "!" thingies and class names with NOTHING. Huh.
+     * @see https://sourceforge.net/projects/yamlbeans/
+     * @return the YAML for the HopToadNotice datastructure
+     */
+    public String toYaml() {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        HashMap<String, Object> values = new HashMap<String, Object>();
 
-			// print out debugging messages
-			if (debug) {
-				BufferedReader rd = new BufferedReader(
-						new InputStreamReader(conn.getInputStream()));
-				String line;
-				while ((line = rd.readLine()) != null) {
-					System.out.println(line);
-				}
-				rd.close();
-			}
+        YamlConfig config = new YamlConfig();
+        config.writeConfig.setUseVerbatimTags(false);
+        config.writeConfig.setExplicitFirstDocument(true);
+        config.writeConfig.setWriteDefaultValues(true);
+        config.writeConfig.setWrapColumn(2000);
+        config.writeConfig.setIndentSize(2);
+        YamlWriter writer = new YamlWriter(new OutputStreamWriter(out), config);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.printf("error posting to HopToadApp: %s\n", e);
-		}
-	}
-	
-	
+        values.put("notice", this);
+        try {
+            writer.write(values);
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String returnString = out.toString();
+        returnString = returnString.replaceAll("!\\S+", "");
+        return returnString;
+    }
+
+    /**
+     * Send the data to the HopToadApp.
+     * Sets HTTP headers, and then sends the YAML file.
+     * Optionally prints out the YAML text if you pass in true for debug.
+     * @param debug set to true to see the YAML sent, and the XML server results
+     * @param throwRuntime set to true to cause a runtime exception to be thrown
+     * in the event of failure.
+     */
+    public boolean postData(final boolean debug, final boolean throwRuntime) {
+        try {
+            // establish connection to hoptoad
+            URLConnection conn = new URL(HOPTOAD_URL).openConnection();
+
+            // set up the connection to handle posting x-yaml document.
+            // and for receiving XML formatted response..
+            // HEY HOPTOAD KIDS: Can I send XML instead of YAML?
+            // us java guys are just broken that way!
+            conn.setRequestProperty(
+                "Content-type",
+                "application/x-yaml");
+            conn.setRequestProperty(
+                "Accept",
+                "text/xml, application/xml");
+            conn.setDoOutput(true);
+
+            OutputStreamWriter wr = new OutputStreamWriter(
+                conn.getOutputStream());
+            if (debug) {
+                System.out.println(toYaml());
+            }
+            wr.write(toYaml());
+            wr.flush();
+            wr.close();
+
+            // print out debugging messages
+            if (debug) {
+                BufferedReader rd = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+                String line;
+                while ((line = rd.readLine()) != null) {
+                    System.out.println(line);
+                }
+                rd.close();
+            }
+
+        } catch (Exception e) {
+            if (throwRuntime) {
+                throw new HoptoadException("could not send hoptoad notice", e);
+            } else {
+                e.printStackTrace();
+                System.err.printf("error posting to HopToadApp: %s\n", e);
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 

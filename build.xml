@@ -1,62 +1,142 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <project name="HopToadClient" default="compile">
-	<property name="src" location="src/main/java/" />
-	<property name="docs" location="doc" />
-	<property name="build" location="build" />
-	<property name="compile.debug" value="true" />
+  <property name="src" location="src/main/java/"/>
+  <property name="test-src" location="src/test/java/"/>
+  <property name="docs" location="doc"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="dist"/>
+  <property name="compile.debug" value="true"/>
+  <loadproperties srcFile="version.properties"/>
 
-	<path id="mainpath">
-		<pathelement location="${build}" />
-		<fileset dir="lib">
-			<include name="**/*.jar" />
-		</fileset>
-	</path>
+  <path id="mainpath">
+    <pathelement location="${build}"/>
+    <fileset dir="lib">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
 
-	<!--                                                              -->
-	<!--                                                              -->
-	<!--                                                              -->
-	<target name="compile" description="Compiles java sources" depends="init">
-		<javac srcdir="${src}" 
-			destdir="${build}" 
-			debug="${compile.debug}" 
-			debuglevel="lines,vars,source" source="1.5">
-			<classpath refid="mainpath" />
-		</javac>
-	</target>
+  
+  <!--                                                              -->
+  <!--                                                              -->
+  <!--                                                              -->
+  <target name="compile" description="Compiles java sources" depends="init">
+    <javac srcdir="${src}" destdir="${build}" debug="${compile.debug}" debuglevel="lines,vars,source" source="1.5">
+      <classpath refid="mainpath"/>
+    </javac>
+    <javac srcdir="${test-src}" destdir="${build}" debug="${compile.debug}" debuglevel="lines,vars,source" source="1.5">
+      <classpath refid="mainpath"/>
+    </javac>
+    <antcall target="build.record"/>
+  </target>
+  
 
-	<!--                                                              -->
-	<!--                                                              -->
-	<!--                                                              -->
-	<target name="init">
-		<!-- Create the time stamp -->
-		<tstamp />
-		<!-- Create the build directory structure used by compile -->
-		<mkdir dir="${build}" />
-		<mkdir dir="${docs}" />
-	</target>
 
+  <!--                                                              -->
+  <!--                                                              -->
+  <!--                                                              -->
+  <target name="dist.src" depends="docs">
+     <filter filtersfile="version.properties"/>
+     <copy todir="${dist}/src/test/java" filtering="true">
+         <fileset dir="${src}"/>
+     </copy>
+     <copy todir="${dist}/src/main/java" filtering="true">
+         <fileset dir="${test-src}"/>
+     </copy>
+
+     <copy todir="${dist}/docs" filtering="true">
+         <fileset dir="${docs}"/>
+     </copy>
+  </target>
+
+  <!--                                                              -->
+  <!--                                                              -->
+  <!--                                                              -->
+  <target name="jar.src" depends="test">
+    
+  </target>
 	
-	<!--                                                              -->
-	<!--                                                              -->
-	<!--                                                              -->
-	<target name="clean" description="clean up">
-		<!-- Delete the ${build} and ${dist} directory trees -->
-		<delete dir="${build}" />
-		<delete dir="${docs}" />
-	</target>
+  <!--                                                              -->
+  <!--                                                              -->
+  <!--                                                              -->
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+    <mkdir dir="${docs}"/>
+  </target>
 
+  <!--                                                              -->
+  <!--                                                              -->
+  <!--                                                              -->
+  <target name="clean" description="clean up">
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${docs}"/>
+  </target>
+
+  <!--                                                              -->
+  <!--                                                              -->
+  <!--                                                              -->
+  <target name="docs" description="generate javadocs">
+    <javadoc 
+	stylesheetfile="src/main/screen.css" 
+	overview="src/main/overview.html" 
+	access="private" 
+	sourcepath="src/main/java" 
+	destdir="${docs}"/>
+  </target>
+
+  <!--                                                              -->
+  <!--                                                              -->
+  <!--                                                              -->
+  <target name="test" description="run junit test" depends="compile">
+  	<input addproperty="hoptoad.key" message="enter your hoptoad key" />
+    <junit printsummary="yes" haltonfailure="yes" showoutput="true">
+      <formatter type="plain"/>
+      <classpath refid="mainpath"/>
+    	<sysproperty key="hoptoad.key" value="${hoptoad.key}"/>
+      <test name="com.sniflabs.hoptoad.HoptoadNoticeTest" />
+    </junit>
+  </target>
+
+  <!--                                                              -->
+  <!--                                                              -->
+  <!--                                                              -->
+  <target name="build.record" description="update build info">
+    <propertyfile file="version.properties" comment="version tracking">
+      <entry key="build.number" type="int" default="000" pattern="000" operation="+"/>
+      <entry key="build.date" type="date" value="now" pattern="yyyy-MM-dd"/>
+    </propertyfile>
+  </target>
+
+  <!--                                                              -->
+  <!--                                                              -->
+  <!--                                                              -->
+  <target name="rev.min" description="update minor revision">
+    <propertyfile file="version.properties" comment="version tracking">
+      <entry key="build.number" type="int" value="000"/>
+      <entry key="rev.min" type="int" default="00" pattern="00" operation="+"/>
+      <entry key="build.date" type="date" value="now" pattern="yyyy-MM-dd"/>
+    </propertyfile>
+  </target>
+
+  <!--                                                              -->
+  <!--                                                              -->
+  <!--                                                              -->
+  <target name="rev.maj" description="update minor revision">
+    <propertyfile file="version.properties" comment="version tracking">
+      <entry key="build.number" type="int" value="000"/>
+      <entry key="rev.min" type="int" value="00"/>
+      <entry key="rev.maj" type="int" operation="+" />
+      <entry key="build.date" type="date" value="now" pattern="yyyy-MM-dd"/>
+    </propertyfile>
+  </target> 
 	
-    <!--                                                              -->
-    <!--                                                              -->
-    <!--                                                              -->	
-	<target name="docs" description="generate javadocs">
-		   <javadoc 
-		    stylesheetfile="src/main/screen.css" 
-		   	overview="src/main/overview.html"
-		   	access="private"
-		   	sourcepath="src/main/java" 
-		    destdir="${docs}"/>
-		   
-	
-	</target>
+  <!--                                                              -->
+  <!--                                                              -->
+  <!--                                                              -->
+  <target name="build.print" description="print our build info" depends="init">
+    <echo>Version ${rev.maj}.${rev.min} (${build.number}) ${build.date})</echo>
+  </target>
 </project>

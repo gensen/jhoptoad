@@ -1,2 +1,0 @@
-This should cause a conflict.
-This is a test. please kindly ignore.
