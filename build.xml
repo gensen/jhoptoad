@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+
 <project name="HopToadClient" default="compile">
   <property name="src" location="src/main/java/"/>
   <property name="test-src" location="src/test/java/"/>
