@@ -15,7 +15,7 @@
 project: HopToadProxy
 File: HoptoadErrorTest.java
 Package: com.sniflabs.HopToadProxy
-Version: @version @rev.maj@.@rev.min@  (Build No. @build.number@ built on @build.date@)
+Version:  @version ${pom.version}
 Authors: Noah Paessel (noah AT sniflabs.com)
  ***********************************************************************/
 
@@ -26,7 +26,7 @@ package com.sniflabs.hoptoad;
  * modified Sep 5, 2008
  * 
  * @author Noah Paessel (noah AT sniflabs.com)
- * @version @rev.maj@.@rev.min@  (Build No. @build.number@ built on @build.date@)
+ * @version ${pom.version}
  */
 public class HoptoadException extends RuntimeException {
 	final static String DEFAULT_MESSAGE = "Unable to post to hoptoad service. " +

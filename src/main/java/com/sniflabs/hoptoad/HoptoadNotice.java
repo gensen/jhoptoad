@@ -15,7 +15,7 @@
 project: HopToadProxy
 File: HoptoadErrorTest.java
 Package: com.sniflabs.HopToadProxy
-Version: @version @rev.maj@.@rev.min@  (Build No. @build.number@ on @build.date@)
+Version:  @version ${pom.version}
 Authors: Noah Paessel (noah AT sniflabs.com)
  ***********************************************************************/
 
@@ -56,9 +56,8 @@ import net.sourceforge.yamlbeans.YamlWriter;
  * 
  * 
  * 
- * @see <a href="http://sourceforge.net/projects/yamlbeans/">yamlbeans</a> 
  * @author Noah Paessel (noah AT sniflabs.com)
- * @version @version @rev.maj@.@rev.min@  (Build No. @build.number@ built on @build.date@)
+ * @version ${pom.version}
  */
 public class HoptoadNotice {
 
@@ -121,7 +120,6 @@ public class HoptoadNotice {
      * 
      * I don't feel like understanding what this is all about,
      * so I replaced the "!" thingies and class names with NOTHING. Huh.
-     * @see https://sourceforge.net/projects/yamlbeans/
      * @return the YAML for the HopToadNotice datastructure
      */
     public String toYaml() {
